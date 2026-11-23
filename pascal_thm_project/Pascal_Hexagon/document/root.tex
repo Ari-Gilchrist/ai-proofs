@@ -1,0 +1,108 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{Pascal's Hexagon Theorem}
+\author{Ari Gilchrist}
+\maketitle
+
+\begin{abstract}
+  We formalise Pascal's hexagon theorem (1640): for any six distinct points on a
+  non-degenerate conic, the three intersection points of the opposite sides of the hexagon
+  they form are collinear, provided those intersections exist.
+  The main result is stated in the real plane $\mathbb{R}^2$ using the standard notion of
+  collinearity from HOL-Analysis. We also prove several variants of the theorem,
+  including the case of arbitrary and possibly degenerate conics, and the special cases in which
+  the conic is a pair of lines (Pappus's hexagon theorem) or a circle.
+\end{abstract}
+
+\subsection*{Acknowledgements}
+This formalisation was generated almost entirely by Anthropic's Claude
+Opus 5.5, which designed the proof strategy, wrote and debugged the Isabelle code, and
+drafted the accompanying document. The author only reviewed the development,
+revised the text, and verified that the definitions and theorem statements capture the intended
+mathematics.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\section{Introduction}
+
+Let $A, B, C, D, E, F$ be six arbitrary distinct points on a conic, defining the
+hexagon $ABCDEF$. Its \emph{opposite sides} are the pairs $AB, DE$; $BC, EF$ and $CD, FA$.
+The vertices may lie on the conic in any order, hence the hexagon may cross over itself.
+Pascal~\cite{pascal1640} observed that the three intersection points of opposite
+sides always lie on a common line, now called the \emph{Pascal line} of the hexagon:
+
+\begin{quote}
+  \textbf{Theorem (Pascal, 1640).} Let $A, \dots, F$ be six distinct points on a
+  non-degenerate conic in $\mathbb{R}^2$. If $P$ lies on the lines $AB$ and $DE$, $Q$ on
+  $BC$ and $EF$, and $R$ on $CD$ and $FA$, then $P$, $Q$ and $R$ are collinear.
+\end{quote}
+
+Here a non-degenerate conic is the zero set of a polynomial
+$ax^2 + bxy + cy^2 + dx + ey + f$ whose homogenisation has an invertible symmetric
+matrix; if it is non-empty, it is an ellipse, a parabola or a hyperbola. The theorem
+assumes that $P$, $Q$ and $R$ exist, i.e.\ that no two opposite sides are parallel.
+
+We follow the standard coordinate proof in the projective plane (see
+e.g.~\cite{richter-gebert2011} for background on homogeneous coordinates and projective
+conics). A point is represented by a homogeneous coordinate vector, the line through two
+points is their cross product, and three points are collinear iff the determinant of their
+coordinate vectors vanishes. The collinearity of the three intersection points is
+therefore expressed by a single \emph{Pascal determinant}. A linear change of coordinates
+moves $A$, $B$, $C$ to the standard basis vectors, which multiplies the Pascal determinant
+by a non-zero factor and turns the conic into $\alpha xy + \beta yz + \gamma zx = 0$. The
+three points $D$, $E$, $F$ on the conic then give three linear equations satisfied by the
+non-zero vector $(\alpha, \beta, \gamma)$, so the matrix of this system is singular; in
+these coordinates its determinant is, up to sign, the Pascal determinant. This argument works
+over any field and for any conic, provided that $A$, $B$, $C$ are not collinear and that
+each pair of opposite sides consists of two distinct lines; both are ensured by seven
+non-collinearity conditions on the vertices.
+
+Section~2 develops this projective argument in homogeneous coordinates over an arbitrary
+field. It also proves that a line meets a non-degenerate conic in at most two points, so
+that for such conics the non-collinearity conditions follow from distinctness of the six
+points. Section~3 transfers the results to $\mathbb{R}^2$ via $(x, y) \mapsto (x, y, 1)$,
+using the standard notions \texttt{collinear} and \texttt{dist} from HOL-Analysis. Besides
+Pascal's theorem as stated above (\texttt{pascal\_hexagon}), it proves:
+\begin{itemize}
+\item \texttt{pascal\_hexagon\_any\_conic}: the theorem for an arbitrary conic, possibly
+  degenerate, assuming that no three of the six points are collinear except possibly the
+  alternate triples $A, C, E$ and $B, D, F$. Up to renaming the points and reordering the
+  coefficients of the conic, this is the statement of \texttt{PASCAL\_AFFINE} in
+  HOL Light~\cite{harrison-pascal}.
+\item \texttt{pascal\_hexagon\_circle}: the theorem for six distinct points on a circle.
+  Up to renaming, this is the statement of \texttt{PASCAL\_AFFINE\_CIRCLE} in HOL Light and
+  of the Lean formalisation~\cite{alexeev-pascal}.
+\item \texttt{pappus\_hexagon}: Pappus's hexagon theorem, the case in which the conic is
+  a pair of lines with $A, C, E$ on one and $B, D, F$ on the other.
+\end{itemize}
+
+Pascal's theorem is number 28 on Freek Wiedijk's list ``Formalizing 100
+Theorems''~\cite{wiedijk100}. It has previously been formalised in HOL Light by John
+Harrison~\cite{harrison-pascal}, in Mizar by Roland Coghetto~\cite{coghetto2017}, in Rocq
+by Nicolas Magaud and Julien Narboux~\cite{magaud-narboux-pascal}, and in Lean by Boris
+Alexeev~\cite{alexeev-pascal}. In Isabelle/HOL, Bordg's synthetic development of projective
+geometry~\cite{Projective_Geometry-AFP} proves the analogue of the Rocq result: a projective
+plane has Pappus's property if and only if, whenever the opposite sides of a hexagon meet in
+collinear points, so do those of the hexagon obtained by swapping two adjacent vertices.
+IsaGeoCoq~\cite{IsaGeoCoq-AFP} proves the parallel form of Pappus's theorem in Tarski's
+axiomatisation of Euclidean geometry. Neither development involves conics, and to the
+author's knowledge, Pascal's theorem for conics has not previously been formalised in
+Isabelle/HOL.
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}

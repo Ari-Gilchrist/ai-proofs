@@ -1,0 +1,11 @@
+chapter AFP
+
+session Koenig_Edge_Colouring = "HOL-Library" +
+  options [timeout = 600]
+  sessions
+    Undirected_Graph_Theory
+  theories
+    Koenig_Edge_Colouring
+  document_files
+    "root.tex"
+    "root.bib"

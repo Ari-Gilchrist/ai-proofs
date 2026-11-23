@@ -1,0 +1,86 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{isabelle,isabellesym}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfsetup}
+
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{K\H{o}nig's Edge Colouring Theorem}
+\author{Ari Gilchrist}
+\maketitle
+
+\begin{abstract}
+  We formalise K\H{o}nig's edge colouring theorem (1916): for any finite bipartite graph, the
+  chromatic index is the maximum degree. The proof follows the classical
+  Kempe chain argument, with the chain defined in terms of alternating
+  walks rather than maximal simple paths. As a corollary, we show that the edge set of every finite $k$-regular bipartite graph is the disjoint
+  union of $k$ perfect matchings. Our development builds on the
+  \emph{Undirected Graph Theory} library.
+\end{abstract}
+
+\subsection*{Acknowledgements}
+This formalisation was generated almost entirely by Anthropic's Claude
+Opus 5.5, which designed the proof strategy, wrote and debugged the Isabelle code, and
+drafted the accompanying document. The author only reviewed the development,
+revised the text, and verified that the definitions and theorem statements capture the intended
+mathematics.
+
+\tableofcontents
+
+\parindent 0pt\parskip 0.5ex
+
+\section{Introduction}
+
+A \emph{proper edge colouring} of a graph assigns a colour to every edge such
+that any two edges sharing a vertex receive different colours. The
+\emph{chromatic index} $\chi'(G)$ of a graph $G$ is the minimum number of
+colours for which such a colouring exists. Since all edges connected to a vertex of
+maximum degree $\Delta(G)$ must receive pairwise distinct colours, every graph trivially
+satisfies $\chi'(G) \geq \Delta(G)$. In the special case of bipartite graphs,
+K\H{o}nig~\cite{koenig1916} proved that the lower bound is attained:
+
+\begin{quote}
+  \textbf{Theorem (K\H{o}nig, 1916).} For every finite bipartite graph $G$,
+  $\chi'(G) = \Delta(G)$.
+\end{quote}
+
+The substantial direction is therefore $\chi'(G) \leq \Delta(G)$, i.e.\ the existence
+of a proper edge colouring with $\Delta(G)$ colours. To find one, we follow the standard
+proof~\cite[Proposition~5.3.1]{diestel}, which considers colouring each edge at a time.
+At the moment that a new edge $\{x,y\}$ is considered for colouring, the vertices $x$
+and $y$ have at most
+$\Delta - 1$ coloured edges, hence some colour $\alpha$ is missing at $x$ and
+some colour $\beta$ is missing at $y$. If $\alpha$ is also missing at $y$, the
+new edge is coloured $\alpha$, otherwise the colours $\alpha$ and $\beta$ are swapped
+along the $\alpha/\beta$-alternating chain (or \emph{Kempe chain}) starting
+at $y$. Bipartiteness
+ensures that this chain cannot reach $x$. After the swap, $\alpha$ is
+therefore missing at both endpoints, and thus $\{x,y\}$ may be assigned the colour $\alpha$
+while preserving the colouring's properness.
+
+Rather than reasoning about maximal simple alternating paths, we define the
+chain as the set of all edges traversed by alternating walks from $y$.
+The key observation is a closure property: at every vertex, either all or
+none of its $\alpha$- and $\beta$-coloured edges belong to the chain.
+Consequently, swapping the two colours on the chain preserves properness.
+
+Section~2 defines proper edge colourings, develops the
+alternating chain argument, and proves K\H{o}nig's theorem.
+Section~3 derives K\H{o}nig's original application:
+the edge set of every finite $k$-regular bipartite graph decomposes into $k$
+perfect matchings. The development builds on the \emph{Undirected Graph
+Theory} entry~\cite{Undirected_Graph_Theory-AFP} of the Archive of Formal Proofs.
+Following that library, a bipartite graph comes with a partition of its
+vertices into two non-empty parts. This excludes only graphs with fewer than
+two vertices, which have no edges.
+
+\input{session}
+
+\bibliographystyle{abbrv}
+\bibliography{root}
+
+\end{document}

@@ -1,0 +1,10 @@
+chapter AFP
+
+session Pascal_Hexagon = "HOL-Analysis" +
+  options [timeout = 600]
+  theories
+    Pascal_Projective
+    Pascal_Affine
+  document_files
+    "root.tex"
+    "root.bib"
