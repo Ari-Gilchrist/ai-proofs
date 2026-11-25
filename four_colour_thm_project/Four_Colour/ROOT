@@ -140,3 +140,60 @@ session Four_Colour_Plane_Geometry in "Plane_Geometry" = Four_Colour_Plane_Maps 
     Adjacency_Boxes
     Plane_Port_Audit
 
+session Four_Colour_Matte_Geometry in "Plane_Extension" = Four_Colour_Plane_Geometry +
+  description "Grid geometry and simple-boundary extension for plane-region discretization"
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    Matte_Extension2
+    Coarse_Geometry
+    Matte_Contact
+    Coarse_Extension
+    Matte_Order
+    Matte_Refinement
+    Connected_Matte
+    Region_Mattes
+    Plane_Discretization_Data
+    Matte_Port_Audit
+
+session Four_Colour_Grid_Map in "Grid_Map" = Four_Colour_Matte_Geometry +
+  description "Finite grid construction for the plane-map discretization"
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    Grid_Adjacency
+    Grid_Bounds
+    Grid_Contact
+    Grid_Port_Audit
+
+session Four_Colour_Grid_Hypermap in "Grid_Hypermap" = Four_Colour_Grid_Map +
+  description "Framed grid hypermaps and their planar region cutouts"
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  sessions
+    Four_Colour_Base
+    Four_Colour_Maps
+  theories
+    Grid_Permutations
+    Grid_Rotations
+    Framed_Grid
+    Grid_Counting
+    Grid_Vertices
+    Grid_Darts
+    Grid_Connectivity
+    Grid_Planarity
+    Grid_Rings
+    Grid_Disks
+    Grid_Cutout
+    Grid_Colouring
+    Grid_Hypermap_Audit
+
+
+session Four_Colour in "." = Four_Colour_Combinatorial +
+  description "The Four Colour Theorem for finite and arbitrary simple real-plane maps"
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  sessions
+    Four_Colour_Grid_Hypermap
+    Four_Colour_Grid_Map
+  theories
+    Four_Colour
+  document_files
+    "root.tex"
+    "root.bib"

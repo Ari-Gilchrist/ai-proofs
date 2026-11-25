@@ -7,22 +7,27 @@
 \urlstyle{rm}
 \isabellestyle{it}
 \begin{document}
-\title{The Combinatorial Four Colour Theorem}
+\title{The Four Colour Theorem}
 \author{Ari Gilchrist}
-\date{25 November 2026}
+\date{26 November 2026}
 \maketitle
 \begin{abstract}
-We formalise the combinatorial Four Colour Theorem in Isabelle/HOL:
-every finite planar bridgeless hypermap has a face colouring with four
-colours. By duality, every finite planar loopless hypermap has a vertex
-colouring with four colours. The development follows Gonthier's Rocq
+We formalise the Four Colour Theorem for simple maps of the real plane
+in Isabelle/HOL. Every finite simple plane map is colourable with four
+colours; colouring compactness removes the finiteness restriction. The
+combinatorial core proves that every finite planar bridgeless hypermap has
+a face colouring with four colours. By duality, every finite planar
+loopless hypermap has a vertex colouring with four colours. The development follows Gonthier's Rocq
 formalisation of the Robertson--Sanders--Seymour--Thomas proof. It includes
 the structural reduction, Kempe-chain arguments, reducibility of 633
 configurations, and the discharging and unavoidability argument.
 Executable certificate checkers are proved sound in HOL, and their finite
 obligations are discharged using Isabelle's standard evaluation mechanism.
-The final theorems have no additional reducibility or unavoidability
-hypotheses. A dependency audit rejects skipped proofs and oracle dependencies
+The real-plane reduction constructs finite disjoint grid mattes preserving
+region adjacency and a finite planar loopless hypermap obtained by cutting
+out their interiors. The final theorems have no additional discretization,
+reducibility, or unavoidability hypotheses. A dependency audit rejects skipped
+proofs and oracle dependencies
 other than the standard code-evaluation oracle.
 \end{abstract}
 \tableofcontents
@@ -45,7 +50,7 @@ A face colouring is constant along each face permutation and changes
 colour along an edge permutation, for every dart in the carrier.
 The bridgeless assumption excludes an edge joining a face to itself.
 For the dual graph formulation, the corresponding assumption is looplessness.
-The main results in theory \texttt{Four\_Colour} are:
+The combinatorial results in theory \texttt{Combinatorial\_Four\_Colour} are:
 \begin{itemize}
 \item \texttt{four\_color\_hypermap}: a planar bridgeless hypermap is
   four-colourable;
@@ -54,9 +59,19 @@ The main results in theory \texttt{Four\_Colour} are:
 \item \texttt{hypermap.four\_colour\_graph}: a planar loopless hypermap
   admits a vertex colouring with four colours.
 \end{itemize}
-The result is the combinatorial map formulation. No geometric embedding
-predicate or theorem about arbitrary subsets of the real plane is asserted
-by this entry.
+Theory \texttt{Four\_Colour} proves the real-plane statements, for
+\texttt{m :: rp\_point region\_map}:
+\begin{itemize}
+\item \texttt{four\_color\_finite}:
+  \texttt{rp\_finite\_simple\_map m} implies
+  \texttt{rp\_colorable\_with 4 m};
+\item \texttt{four\_color}: \texttt{rp\_simple\_map m} implies
+  \texttt{rp\_colorable\_with 4 m}.
+\end{itemize}
+The definitions formalise open connected regions. Adjacency requires a
+shared border point whose incident-region map has at most two regions. The geometric construction
+establishes the hypotheses of the combinatorial theorem; no discretization
+premise is assumed in either public plane-map theorem.
 
 \section{Proof structure}
 The finite-list, path, and orbit libraries follow the conventions of
@@ -88,8 +103,21 @@ generated checker code. \\
 633 configurations. \\
 \texttt{Four\_Colour\_Unavoidability} & Score caps and presentations for
 arities 5 through 11. \\
-\texttt{Four\_Colour} & Unavoidability, the final map and graph theorems,
-and the dependency audit. \\
+\texttt{Four\_Colour\_Combinatorial} & Unavoidability, the combinatorial
+map and graph theorems, and their dependency audit. \\
+\texttt{Four\_Colour\_Plane} & Real-plane map definitions and colouring
+compactness. \\
+\texttt{Four\_Colour\_Plane\_Maps} & Finite restrictions and grid geometry. \\
+\texttt{Four\_Colour\_Plane\_Geometry} & Approximation, map representatives,
+and matte geometry. \\
+\texttt{Four\_Colour\_Matte\_Geometry} & Matte extension, refinement, and
+finite discretization data. \\
+\texttt{Four\_Colour\_Grid\_Map} & Finite disjoint mattes preserving
+region adjacencies. \\
+\texttt{Four\_Colour\_Grid\_Hypermap} & Grid planarity, successive interior
+cutouts, looplessness, and colour transfer. \\
+\texttt{Four\_Colour} & Finite and arbitrary simple real-plane map theorems
+and their dependency audit. \\
 \end{longtable}
 The session boundaries allow the certificate computations to run in separate
 processes and to be retained in intermediate heaps. This is important on

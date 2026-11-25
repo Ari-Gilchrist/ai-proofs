@@ -5,8 +5,7 @@ theory Matte_Extension2
 begin
 
 lemma grid_endpoints_distinct: "end0g d \<noteq> end1g d"
-  using oddg_corners[of d]
-  by (auto simp: end0g_def end1g_def gcorners_def ccw_def)
+  using neq_ccw[of "oddg d"] by (simp add: end0g_def end1g_def)
 
 lemma matte_ring_at_pair:
   assumes v: "valid_matte m" and a: "a\<in>set (mring m)"
@@ -24,13 +23,14 @@ proof -
   proof (cases rs)
     case Nil
     then have "end1g a=end0g a" using cyc by (simp add: grid_cycle_def mrlink_def)
-    then show thesis using grid_endpoints_distinct[of a] by blast
+    then have False using grid_endpoints_distinct[of a] by simp
+    then show thesis by (rule FalseE)
   next
     case (Cons c ds)
     then show thesis by (rule that)
   qed
   have cb: "end0g c=end0g b" using cyc link by (simp add: rs grid_cycle_def mrlink_def)
-  have c: "c\<in>set (mring m)" using sets rs by simp
+  have c: "c\<in>set (mring m)" using sets rs by auto
   have eq: "c=b" by (rule inj_onD[OF inj cb c b])
   show thesis by (rule that) (use cyc simple sets in \<open>simp_all only: rs eq\<close>)
 qed
@@ -89,9 +89,11 @@ proof -
     have "gedge q=d \<or> gedge q=gface d"
     proof (rule ccontr)
       assume "\<not>(gedge q=d \<or> gedge q=gface d)"
-      then have "gedge q\<in>set (ext2_loop d)" using cases by blast
-      then have "halfg q\<notin>A" using outside[of "gedge q"] by (simp only: gedge2)
-      then show False using q by (simp add: gborder_def)
+      then have in_loop: "gedge q\<in>set (ext2_loop d)" using cases by blast
+      have notin: "halfg (gedge (gedge q))\<notin>A" by (rule outside[OF in_loop])
+      have inside: "halfg q\<in>A" using q by (simp add: gborder_def)
+      have outsideq: "halfg q\<notin>A" using notin by (simp only: gedge2; blast)
+      show False by (rule notE[OF outsideq inside])
     qed
     then show "q=gedge d \<or> q=gedge (gface d)" by (metis gedge2)
   next
@@ -126,6 +128,77 @@ proof -
       show ?thesis using removed[of q] False off by (auto simp: gborder_def)
     qed
   qed
+qed
+
+
+lemma ext2_loop_cycle:
+  assumes cyc: "grid_cycle mrlink (gedge (gface d)#gedge d#ds)"
+  shows "grid_cycle mrlink (ext2_loop d@ds)"
+proof -
+  have start: "end1g (gface (gface (gface d)))=end1g (gedge d)"
+    using end0g_face[of "gface (gface (gface d))"]
+    by (simp add: gface4 end1g_edge)
+  have finish: "end0g (gface (gface d))=end0g (gedge (gface d))"
+    by (simp add: end0g_face end0g_edge)
+  have old: "grid_path mrlink (gedge d) (ds@[gedge (gface d)])"
+    using cyc by (simp add: grid_cycle_def)
+  have path: "grid_path mrlink (gface (gface (gface d))) (ds@[gface (gface d)])"
+    using grid_path_mrlink_endpoints[OF start finish, of ds] old by simp
+  show ?thesis using path
+    by (simp add: ext2_loop_def grid_cycle_def mrlink_def end0g_face)
+qed
+
+lemma ext2_loop_simple: "distinct (map end0g (ext2_loop d))"
+  using ext1_loop_simple[of d] by (simp add: ext1_loop_def ext2_loop_def)
+
+lemma ext2_matte:
+  assumes v: "valid_matte m" and h: "ext2_quad m d"
+  shows "\<exists>xm. valid_matte xm \<and> mdisk xm=ext_mdisk m d"
+proof -
+  have fresh: "halfg d\<notin>set (mdisk m)" by (rule ext2_quad_fresh[OF h])
+  have old0: "halfg (gedge d)\<in>set (mdisk m)"
+    and old1: "halfg (gedge (gface d))\<in>set (mdisk m)"
+    using h by (simp_all add: ext2_quad_def)
+  have a: "gedge (gface d)\<in>set (mring m)"
+    by (rule iffD2[OF mring_gedge_iff[OF v]]) (use old1 fresh in simp)
+  have b: "gedge d\<in>set (mring m)"
+    by (rule iffD2[OF mring_gedge_iff[OF v]]) (rule conjI[OF old0 fresh])
+  have link: "mrlink (gedge (gface d)) (gedge d)"
+    by (simp add: mrlink_def end1g_edge end0g_edge end0g_face)
+  obtain ds where cyc: "grid_cycle mrlink (gedge (gface d)#gedge d#ds)"
+    and simple: "distinct (map end0g (gedge (gface d)#gedge d#ds))"
+    and sets: "set (gedge (gface d)#gedge d#ds)=set (mring m)"
+    by (rule matte_ring_at_pair[OF v a b link])
+  have dsset: "set ds=set (mring m)-{gedge d,gedge (gface d)}"
+    using sets simple by auto
+  have disjoint: "end0g ` set (ext2_loop d) \<inter> end0g ` set ds={}"
+    using ext2_new_vertex[OF v h] simple sets
+    by (auto simp: ext2_loop_def end0g_face end0g_edge)
+  have ring_simple: "distinct (map end0g (ext2_loop d@ds))"
+    using simple disjoint ext2_loop_simple[of d] by (simp add: distinct_append)
+  have border: "set (ext2_loop d@ds)=gborder (set (ext_mdisk m d))"
+    using gborder_add_pixel_two[OF fresh old0 old1 ext2_loop_outside[OF h]] dsset in_mring[OF v]
+    by (auto simp: ext_mdisk_def)
+  let ?xm = "\<lparr>mdisk=ext_mdisk m d, mring=ext2_loop d@ds\<rparr>"
+  have "valid_matte ?xm"
+    using ext2_loop_cycle[OF cyc] ring_simple border
+    by (simp add: valid_matte_def ext_mdisk_def)
+  then show ?thesis by (intro exI[of _ ?xm]) simp
+qed
+
+lemma matte_extension_ext2:
+  assumes ext: "matte_extension m xm" and h: "ext2_quad xm d"
+  shows "\<exists>ym. matte_extension m ym \<and> mdisk ym=ext_mdisk xm d"
+proof -
+  have v: "valid_matte xm" using matte_extension_valid[OF ext] by simp
+  obtain ym where valid: "valid_matte ym" and disk: "mdisk ym=ext_mdisk xm d"
+    using ext2_matte[OF v h] by blast
+  have edge: "gedge d\<in>set (mring xm)"
+    using ext2_quad_fresh[OF h] h
+    by (simp only: mring_gedge_iff[OF v] ext2_quad_def) blast
+  have "matte_extension m ym"
+    by (rule matte_extension.add[OF ext valid edge]) (simp only: disk)
+  then show ?thesis using disk by blast
 qed
 
 end
