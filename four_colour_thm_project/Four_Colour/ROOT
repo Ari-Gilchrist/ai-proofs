@@ -1,0 +1,142 @@
+chapter AFP
+
+session Four_Colour_Base in "Base" = "HOL-Combinatorics" +
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    FC_Seq
+    FC_Fingraph
+    FC_Perm
+    Hypermap
+    Walkup
+    Jordan
+    Euler_Tree
+    Geometry
+    Color
+    Coloring
+    Cube
+    Mincex
+    Patch
+
+session Four_Colour_Maps in "Maps" = Four_Colour_Base +
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    Chromogram
+    Gtree
+    Ctree
+    Initctree
+    Initgtree
+    Ctreerestrict
+    Gtreerestrict
+    Sew
+    Snip
+    Kempe
+    Revsnip
+    Cfmap
+    Cfmap_ext
+    Cfmap_ka
+    Cfmap_prog
+    Cfcolor
+    Kempetree
+    Hypermap_iso
+    Birkhoff_check
+    Birkhoff
+    Spoke
+    Cfmap_ker
+    Cfcontract
+    Cfcontract2
+    Cfreducible
+    Contract
+    Contract2
+    Embed_pre
+    Embed
+    Embed1
+    Embed2
+    Quiz
+    Cfquiz
+    Quiztree
+
+session Four_Colour_Parts in "Parts" = Four_Colour_Maps +
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    Part
+    Redpart
+    Redpart2
+    Redpart3
+    Converse
+    Mirror
+    Discharge
+    Hubcap
+
+session Four_Colour_Presentations in "Presentations" = Four_Colour_Parts +
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    Configurations
+    Present
+    PresentBase
+
+session Four_Colour_Checkers in "Checkers" = Four_Colour_Presentations +
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    Check_Map
+    Quiz_Embed
+    Four_Colour_Reduction
+    Unavoid
+
+session Four_Colour_Runtime in "Runtime" = Four_Colour_Checkers +
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  sessions "HOL-Library"
+  theories
+    Certificate_Runtime
+
+session Four_Colour_Quizzes in "Quizzes" = Four_Colour_Runtime +
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    Quiz_Certificates
+
+session Four_Colour_Reducibility in "Reducibility" = Four_Colour_Quizzes +
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    Reducibility
+
+session Four_Colour_Unavoidability in "Unavoidability" = Four_Colour_Reducibility +
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    Score_Caps
+    Present5
+    Present6
+    Present7
+    Present8
+    Present9
+    Present10
+    Present11
+
+session Four_Colour_Combinatorial in "Combinatorial" = Four_Colour_Unavoidability +
+  description "The checked combinatorial core of the Four Colour Theorem"
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    Combinatorial_Four_Colour
+
+session Four_Colour_Plane in "Plane" = "HOL-Analysis" +
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    Realplane
+    Colour_Compactness
+
+session Four_Colour_Plane_Maps in "Plane_Maps" = Four_Colour_Plane +
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    Finitize
+    Grid_Geometry
+    Grid_Rectangles
+
+session Four_Colour_Plane_Geometry in "Plane_Geometry" = Four_Colour_Plane_Maps +
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  theories
+    Approx
+    Map_Representatives
+    Matte
+    Matte_Extension
+    Scaled_Matte
+    Adjacency_Boxes
+    Plane_Port_Audit
+

@@ -1,0 +1,26 @@
+Project contact
+===============
+Ari Gilchrist
+
+Mathematical sources
+====================
+Neil Robertson, Daniel P. Sanders, Paul Seymour, and Robin Thomas:
+the revised Four Colour Theorem proof.
+Georges Gonthier and the fourcolor contributors:
+the upstream Rocq formalisation and certificate data.
+
+Isabelle development assistance
+===============================
+Anthropic Claude produced much of the initial Isabelle formalisation.
+At the 2026-11-25 handoff, the inherited development was explicitly attributed
+to Claude, except for the already recorded Codex contributions to Sew.thy and
+Snip.thy on 2026-11-23.
+
+OpenAI Codex subsequently completed outstanding mathematical and checker
+proofs, certificate verification, final theorem assembly, build repairs, and
+submission preparation. This does not transfer authorship of the inherited
+work to Codex. The detailed development record is kept in the repository's
+.four_colour_development/NOTES.md; it is not required to build this entry.
+
+AI assistance is disclosed as development provenance. No claim is made that
+an AI tool is a human author, copyright holder, referee, or AFP maintainer.
