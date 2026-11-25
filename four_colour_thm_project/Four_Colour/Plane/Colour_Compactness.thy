@@ -2,7 +2,7 @@
    Unlike the reference's constructive enumeration argument, this proof uses
    the choice principle already available in Isabelle/HOL. Codex, 2026-11-25. *)
 theory Colour_Compactness
-  imports "HOL-Analysis.Analysis"
+  imports "HOL-Analysis.Function_Topology"
 begin
 
 lemma closed_finite_colour_constraint:

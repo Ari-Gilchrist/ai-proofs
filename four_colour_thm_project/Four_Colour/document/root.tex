@@ -83,42 +83,40 @@ presentation certificates of that development. Checkers validate these
 programs and certificates in Isabelle; correctness does not depend on the
 program that translated the data.
 
-\begin{longtable}{p{0.28\textwidth}p{0.64\textwidth}}
-\textbf{Session} & \textbf{Contents} \\
-\hline
-\texttt{Four\_Colour\_Base} & Finite permutations, hypermaps, Euler and Jordan
-properties, colourings, cubic reduction, and patches. \\
-\texttt{Four\_Colour\_Maps} & Kempe arguments, chromogram trees, configuration
-maps, contractions, reducibility, embeddings, and quizzes. \\
-\texttt{Four\_Colour\_Parts} & Parts, reducibility of parts, symmetries,
-discharging, and hubcaps. \\
-\texttt{Four\_Colour\_Presentations} & Configuration data and the presentation
-checker. \\
-\texttt{Four\_Colour\_Checkers} & Soundness of executable checkers and the
-logical final reductions. \\
-\texttt{Four\_Colour\_Runtime} & Verified numeric code equations and shared
-generated checker code. \\
-\texttt{Four\_Colour\_Quizzes} & Quiz certificates for all 633 configurations. \\
-\texttt{Four\_Colour\_Reducibility} & Reducibility certificates for all
-633 configurations. \\
-\texttt{Four\_Colour\_Unavoidability} & Score caps and presentations for
-arities 5 through 11. \\
-\texttt{Four\_Colour\_Combinatorial} & Unavoidability, the combinatorial
-map and graph theorems, and their dependency audit. \\
-\texttt{Four\_Colour\_Plane} & Real-plane map definitions and colouring
-compactness. \\
-\texttt{Four\_Colour\_Plane\_Maps} & Finite restrictions and grid geometry. \\
-\texttt{Four\_Colour\_Plane\_Geometry} & Approximation, map representatives,
-and matte geometry. \\
-\texttt{Four\_Colour\_Matte\_Geometry} & Matte extension, refinement, and
-finite discretization data. \\
-\texttt{Four\_Colour\_Grid\_Map} & Finite disjoint mattes preserving
-region adjacencies. \\
-\texttt{Four\_Colour\_Grid\_Hypermap} & Grid planarity, successive interior
-cutouts, looplessness, and colour transfer. \\
-\texttt{Four\_Colour} & Finite and arbitrary simple real-plane map theorems
-and their dependency audit. \\
-\end{longtable}
+\begin{description}
+\item[\texttt{Four\_Colour\_Base}] Finite permutations, hypermaps, Euler and Jordan
+properties, colourings, cubic reduction, and patches.
+\item[\texttt{Four\_Colour\_Maps}] Kempe arguments, chromogram trees, configuration
+maps, contractions, reducibility, embeddings, and quizzes.
+\item[\texttt{Four\_Colour\_Parts}] Parts, reducibility of parts, symmetries,
+discharging, and hubcaps.
+\item[\texttt{Four\_Colour\_Presentations}] Configuration data and the presentation
+checker.
+\item[\texttt{Four\_Colour\_Checkers}] Soundness of executable checkers and the
+logical final reductions.
+\item[\texttt{Four\_Colour\_Runtime}] Verified numeric code equations and shared
+generated checker code.
+\item[\texttt{Four\_Colour\_Quizzes}] Quiz certificates for all 633 configurations.
+\item[\texttt{Four\_Colour\_Reducibility}] Reducibility certificates for all
+633 configurations.
+\item[\texttt{Four\_Colour\_Unavoidability}] Score caps and presentations for
+arities 5 through 11.
+\item[\texttt{Four\_Colour\_Combinatorial}] Unavoidability, the combinatorial
+map and graph theorems, and their dependency audit.
+\item[\texttt{Four\_Colour\_Plane}] Real-plane map definitions and colouring
+compactness.
+\item[\texttt{Four\_Colour\_Plane\_Maps}] Finite restrictions and grid geometry.
+\item[\texttt{Four\_Colour\_Plane\_Geometry}] Approximation, map representatives,
+and matte geometry.
+\item[\texttt{Four\_Colour\_Matte\_Geometry}] Matte extension, refinement, and
+finite discretization data.
+\item[\texttt{Four\_Colour\_Grid\_Map}] Finite disjoint mattes preserving
+region adjacencies.
+\item[\texttt{Four\_Colour\_Grid\_Hypermap}] Grid planarity, successive interior
+cutouts, looplessness, and colour transfer.
+\item[\texttt{Four\_Colour}] Finite and arbitrary simple real-plane map theorems
+and their dependency audit.
+\end{description}
 The session boundaries allow the certificate computations to run in separate
 processes and to be retained in intermediate heaps. This is important on
 machines with limited memory. They are packaging boundaries, not additional
@@ -161,7 +159,6 @@ specified in \texttt{LICENSE}.
 Long generated configuration and presentation literals are omitted from this
 PDF; their complete source remains in the entry. The following sections
 include the supporting theories in dependency order and the final assembly.
-\input{theories}
 \input{session}
 \bibliographystyle{abbrv}
 \bibliography{root}

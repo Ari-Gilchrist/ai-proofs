@@ -188,7 +188,7 @@ session Four_Colour_Grid_Hypermap in "Grid_Hypermap" = Four_Colour_Grid_Map +
 
 session Four_Colour in "." = Four_Colour_Combinatorial +
   description "The Four Colour Theorem for finite and arbitrary simple real-plane maps"
-  options [timeout = 7200, document = pdf, parallel_proofs = 0]
+  options [timeout = 7200, document = false, parallel_proofs = 0]
   sessions
     Four_Colour_Grid_Hypermap
     Four_Colour_Grid_Map

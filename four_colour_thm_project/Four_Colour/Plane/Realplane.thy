@@ -2,7 +2,8 @@
    Original: G. Gonthier et al., CeCILL-B. Isabelle port: Codex, 2026-11-25.
    The reference's real model is instantiated by Isabelle/HOL's real numbers. *)
 theory Realplane
-  imports "HOL-Analysis.Analysis"
+  imports "HOL-Analysis.Connected" "HOL-Analysis.Convex"
+    "HOL-Analysis.Elementary_Metric_Spaces"
 begin
 
 type_synonym rp_point = "real \<times> real"
@@ -85,7 +86,24 @@ lemma rp_open_eq: "rp_open S \<longleftrightarrow> open S"
 proof
   assume p: "rp_open S"
   have "S = \<Union>{R. (\<exists>a b c d. R = rp_rectangle a b c d) \<and> R \<subseteq> S}"
-    using p by (auto simp: rp_open_def; blast)
+  proof (rule equalityI)
+    show "S \<subseteq> \<Union>{R. (\<exists>a b c d. R = rp_rectangle a b c d) \<and> R \<subseteq> S}"
+    proof (rule subsetI)
+      fix z assume z: "z\<in>S"
+      obtain a b c d where point: "z\<in>rp_rectangle a b c d"
+        and contain: "rp_rectangle a b c d\<subseteq>S"
+        using p z unfolding rp_open_def by blast
+      have shape: "\<exists>u v w t. rp_rectangle a b c d = rp_rectangle u v w t"
+        by (rule exI[of _ a], rule exI[of _ b], rule exI[of _ c], rule exI[of _ d], rule refl)
+      have rectangle: "rp_rectangle a b c d\<in>
+          {R. (\<exists>a b c d. R = rp_rectangle a b c d) \<and> R \<subseteq> S}"
+        using shape contain by simp
+      show "z\<in>\<Union>{R. (\<exists>a b c d. R = rp_rectangle a b c d) \<and> R \<subseteq> S}"
+        using rectangle point by blast
+    qed
+    show "\<Union>{R. (\<exists>a b c d. R = rp_rectangle a b c d) \<and> R \<subseteq> S} \<subseteq> S"
+      by auto
+  qed
   moreover have "open (\<Union>{R. (\<exists>a b c d. R = rp_rectangle a b c d) \<and> R \<subseteq> S})"
     by (rule open_Union) (auto simp: rp_rectangle_def intro: open_Times)
   ultimately show "open S" by simp
