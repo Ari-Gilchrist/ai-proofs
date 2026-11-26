@@ -176,7 +176,7 @@ proof -
 qed
 
 text \<open>Every open rectangle around a point contains a dyadic rectangle
-  whose one-pixel inset still contains the point (approx_rect in the reference).\<close>
+  whose one-pixel inset still contains the point (@{text approx_rect} in the reference).\<close>
 lemma approx_rect:
   assumes z: "z \<in> rp_rectangle a b c d"
   shows "\<exists>q :: scaled_rect. z \<in> srect_set (inset_srect q) \<and>

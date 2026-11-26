@@ -204,7 +204,7 @@ proof (intro allI impI)
   have N1: "length N \<le> 1" unfolding N_def by (rule nsp_atmost1[OF nspF])
   have NS: "set N \<subseteq> {E.X, E2.T.Xe, node G x}" by (cases b1; cases b2; cases b3) (simp_all add: N_def)
   have XYnD: "E2.XY \<notin> E.D" and TXenD: "E2.T.Xe \<notin> E.D" using E2.D_neq_XY by blast+
-  \<comment> \<open>the new list is a permutation of XY # N @ pG\<close>
+  \<comment> \<open>the new list is a permutation of @{text "XY # N @ pG"}\<close>
   have eYold: "edge E2.GY y = edge G y" if "y \<in> E.D" for y using E2.face_GY_old[OF that] by simp
   have l_eq: "mset (ctrlist mr mc (CpY # cp)) = mset (E2.XY # N @ pG)"
   proof -

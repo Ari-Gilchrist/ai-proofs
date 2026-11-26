@@ -170,7 +170,7 @@ proof -
 qed
 
 text \<open>The common-scale form used by the grid-map construction. This is
-  exists_adjbox in discretize.v, with only actual adjacencies in the index set.\<close>
+  @{text exists_adjbox} in discretize.v, with only actual adjacencies in the index set.\<close>
 lemma rp_exists_adjbox:
   fixes m :: "rp_point region_map"
   assumes p: "rp_plain m" and repr: "rp_map_repr m k r"

@@ -188,12 +188,124 @@ session Four_Colour_Grid_Hypermap in "Grid_Hypermap" = Four_Colour_Grid_Map +
 
 session Four_Colour in "." = Four_Colour_Combinatorial +
   description "The Four Colour Theorem for finite and arbitrary simple real-plane maps"
-  options [timeout = 7200, document = false, parallel_proofs = 0]
+  options [timeout = 7200, document = pdf, parallel_proofs = 0]
   sessions
     Four_Colour_Grid_Hypermap
     Four_Colour_Grid_Map
   theories
     Four_Colour
+  document_theories
+    Four_Colour_Base.FC_Seq
+    Four_Colour_Base.FC_Fingraph
+    Four_Colour_Base.FC_Perm
+    Four_Colour_Base.Hypermap
+    Four_Colour_Base.Walkup
+    Four_Colour_Base.Jordan
+    Four_Colour_Base.Euler_Tree
+    Four_Colour_Base.Geometry
+    Four_Colour_Base.Color
+    Four_Colour_Base.Coloring
+    Four_Colour_Base.Cube
+    Four_Colour_Base.Mincex
+    Four_Colour_Base.Patch
+    Four_Colour_Maps.Chromogram
+    Four_Colour_Maps.Gtree
+    Four_Colour_Maps.Ctree
+    Four_Colour_Maps.Initctree
+    Four_Colour_Maps.Initgtree
+    Four_Colour_Maps.Ctreerestrict
+    Four_Colour_Maps.Gtreerestrict
+    Four_Colour_Maps.Sew
+    Four_Colour_Maps.Snip
+    Four_Colour_Maps.Kempe
+    Four_Colour_Maps.Revsnip
+    Four_Colour_Maps.Cfmap
+    Four_Colour_Maps.Cfmap_ext
+    Four_Colour_Maps.Cfmap_ka
+    Four_Colour_Maps.Cfmap_prog
+    Four_Colour_Maps.Cfcolor
+    Four_Colour_Maps.Kempetree
+    Four_Colour_Maps.Hypermap_iso
+    Four_Colour_Maps.Birkhoff_check
+    Four_Colour_Maps.Birkhoff
+    Four_Colour_Maps.Spoke
+    Four_Colour_Maps.Cfmap_ker
+    Four_Colour_Maps.Cfcontract
+    Four_Colour_Maps.Cfcontract2
+    Four_Colour_Maps.Cfreducible
+    Four_Colour_Maps.Contract
+    Four_Colour_Maps.Contract2
+    Four_Colour_Maps.Embed_pre
+    Four_Colour_Maps.Embed
+    Four_Colour_Maps.Embed1
+    Four_Colour_Maps.Embed2
+    Four_Colour_Maps.Quiz
+    Four_Colour_Maps.Cfquiz
+    Four_Colour_Maps.Quiztree
+    Four_Colour_Parts.Part
+    Four_Colour_Parts.Redpart
+    Four_Colour_Parts.Redpart2
+    Four_Colour_Parts.Redpart3
+    Four_Colour_Parts.Converse
+    Four_Colour_Parts.Mirror
+    Four_Colour_Parts.Discharge
+    Four_Colour_Parts.Hubcap
+    Four_Colour_Presentations.Configurations
+    Four_Colour_Presentations.Present
+    Four_Colour_Presentations.PresentBase
+    Four_Colour_Checkers.Check_Map
+    Four_Colour_Checkers.Quiz_Embed
+    Four_Colour_Checkers.Four_Colour_Reduction
+    Four_Colour_Checkers.Unavoid
+    Four_Colour_Runtime.Certificate_Runtime
+    Four_Colour_Quizzes.Quiz_Certificates
+    Four_Colour_Reducibility.Reducibility
+    Four_Colour_Unavoidability.Score_Caps
+    Four_Colour_Unavoidability.Present5
+    Four_Colour_Unavoidability.Present6
+    Four_Colour_Unavoidability.Present7
+    Four_Colour_Unavoidability.Present8
+    Four_Colour_Unavoidability.Present9
+    Four_Colour_Unavoidability.Present10
+    Four_Colour_Unavoidability.Present11
+    Four_Colour_Combinatorial.Combinatorial_Four_Colour
+    Four_Colour_Plane.Realplane
+    Four_Colour_Plane.Colour_Compactness
+    Four_Colour_Plane_Maps.Finitize
+    Four_Colour_Plane_Maps.Grid_Geometry
+    Four_Colour_Plane_Maps.Grid_Rectangles
+    Four_Colour_Plane_Geometry.Approx
+    Four_Colour_Plane_Geometry.Map_Representatives
+    Four_Colour_Plane_Geometry.Matte
+    Four_Colour_Plane_Geometry.Matte_Extension
+    Four_Colour_Plane_Geometry.Scaled_Matte
+    Four_Colour_Plane_Geometry.Adjacency_Boxes
+    Four_Colour_Matte_Geometry.Matte_Extension2
+    Four_Colour_Matte_Geometry.Coarse_Geometry
+    Four_Colour_Matte_Geometry.Matte_Contact
+    Four_Colour_Matte_Geometry.Coarse_Extension
+    Four_Colour_Matte_Geometry.Matte_Order
+    Four_Colour_Matte_Geometry.Matte_Refinement
+    Four_Colour_Matte_Geometry.Connected_Matte
+    Four_Colour_Matte_Geometry.Region_Mattes
+    Four_Colour_Matte_Geometry.Plane_Discretization_Data
+    Four_Colour_Matte_Geometry.Matte_Port_Audit
+    Four_Colour_Grid_Map.Grid_Adjacency
+    Four_Colour_Grid_Map.Grid_Bounds
+    Four_Colour_Grid_Map.Grid_Contact
+    Four_Colour_Grid_Hypermap.Grid_Permutations
+    Four_Colour_Grid_Hypermap.Grid_Rotations
+    Four_Colour_Grid_Hypermap.Framed_Grid
+    Four_Colour_Grid_Hypermap.Grid_Counting
+    Four_Colour_Grid_Hypermap.Grid_Vertices
+    Four_Colour_Grid_Hypermap.Grid_Darts
+    Four_Colour_Grid_Hypermap.Grid_Connectivity
+    Four_Colour_Grid_Hypermap.Grid_Planarity
+    Four_Colour_Grid_Hypermap.Grid_Rings
+    Four_Colour_Grid_Hypermap.Grid_Disks
+    Four_Colour_Grid_Hypermap.Grid_Cutout
+    Four_Colour_Grid_Hypermap.Grid_Colouring
   document_files
     "root.tex"
     "root.bib"
+    "theories.tex"

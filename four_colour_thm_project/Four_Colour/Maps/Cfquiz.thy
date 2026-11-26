@@ -104,9 +104,9 @@ definition cfquiz :: "config \<Rightarrow> quiz" where
      if cpradius2 cp (cpksize cp) then cfquiz_rec (replicate (cprsize cp) (RingQuestion False 0 Qask0)) cp
      else noquiz)"
 
-text \<open>The (pending) correctness statement of cfquiz.v: a configuration whose compiled quiz is
+text \<open>The correctness predicate corresponding to cfquiz.v: a configuration whose compiled quiz is
   well formed is embeddable, and the quiz is valid for it.  In Gonthier's development this is
-  Lemmas embeddable_cfquiz and valid_cfquiz.\<close>
+  lemmas @{text embeddable_cfquiz} and @{text valid_cfquiz}.\<close>
 
 definition cfquiz_correct :: "config \<Rightarrow> bool" where
   "cfquiz_correct cf \<longleftrightarrow> (isQuizR (cfquiz cf) \<longrightarrow>

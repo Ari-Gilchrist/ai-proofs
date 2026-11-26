@@ -53,7 +53,7 @@ lemma penta_mem: "y \<in> D \<Longrightarrow> mem_range Pr59 (arity G y)" using 
 
 lemmas mv = subpart_loc_move.simps eval_nat_numeral funpow.simps comp_def
 
-text \<open>Claim B (conv_part5): the sector at the third spoke.\<close>
+text \<open>Claim B (@{text conv_part5}): the sector at the third spoke.\<close>
 
 lemma conv5:
   assumes xD: "x \<in> D" and fit3: "fitp G ((f ^^ 2) x) p3"
@@ -68,7 +68,7 @@ next
   then show ?thesis using fit3 h45 xD penta_mem by (simp add: mv pcons_s_def)
 qed (use xD penta_mem in \<open>simp_all add: mv\<close>)
 
-text \<open>Claim D (conv_part3): the converse hub sits on the second spoke.\<close>
+text \<open>Claim D (@{text conv_part3}): the converse hub sits on the second spoke.\<close>
 
 lemma conv3:
   assumes xD: "x \<in> D" and a: "arity G x = 5 + psize p6" and fit6: "fitp G ((f ^^ 5) x) p6"

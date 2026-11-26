@@ -96,7 +96,7 @@ qed
 
 text \<open>A non-corner adjacency point has a neighbourhood avoiding any
   prescribed finite collection of other regions. This is the local step used
-  by exists_adjbox in discretize.v.\<close>
+  by @{text exists_adjbox} in discretize.v.\<close>
 lemma rp_adjacency_neighbourhood:
   fixes m :: "rp_point region_map"
   assumes p: "rp_plain m" and fin: "finite R" and ad: "rp_adjacent m a b"

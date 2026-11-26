@@ -2,13 +2,8 @@
 **/__pycache__/
 *.py[cod]
 
-# Preserve the development history outside the three deliverables.
-.four_colour_development/
-
-# Generated inside the entry; the release PDF and tar.gz live beside it.
-four_colour_thm_project/Four_Colour/output/
-four_colour_thm_project/Four_Colour/browser_info/
-
-
-# text for now is left out:
-four_colour_thm_project/**/*.md
+# Local build and editor output is not submission source.
+four_colour_thm_project/Four_Colour/document/*.aux
+four_colour_thm_project/Four_Colour/document/*.log
+four_colour_thm_project/Four_Colour/document/*.fls
+four_colour_thm_project/Four_Colour/document/*.fdb_latexmk

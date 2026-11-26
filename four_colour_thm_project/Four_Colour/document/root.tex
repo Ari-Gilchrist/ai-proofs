@@ -2,164 +2,79 @@
 \usepackage[T1]{fontenc}
 \usepackage{isabelle,isabellesym}
 \usepackage{amsmath,amssymb}
-\usepackage{longtable}
 \usepackage{pdfsetup}
+
 \urlstyle{rm}
 \isabellestyle{it}
+
+% Leave room for the development's three-digit section numbers.
+\makeatletter
+\renewcommand*\l@section{\@dottedtocline{1}{0em}{3em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{3em}{3.5em}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{6.5em}{4.5em}}
+\makeatother
+
 \begin{document}
+
 \title{The Four Colour Theorem}
 \author{Ari Gilchrist}
-\date{26 November 2026}
 \maketitle
+
 \begin{abstract}
-We formalise the Four Colour Theorem for simple maps of the real plane
-in Isabelle/HOL. Every finite simple plane map is colourable with four
-colours; colouring compactness removes the finiteness restriction. The
-combinatorial core proves that every finite planar bridgeless hypermap has
-a face colouring with four colours. By duality, every finite planar
-loopless hypermap has a vertex colouring with four colours. The development follows Gonthier's Rocq
-formalisation of the Robertson--Sanders--Seymour--Thomas proof. It includes
-the structural reduction, Kempe-chain arguments, reducibility of 633
-configurations, and the discharging and unavoidability argument.
-Executable certificate checkers are proved sound in HOL, and their finite
-obligations are discharged using Isabelle's standard evaluation mechanism.
-The real-plane reduction constructs finite disjoint grid mattes preserving
-region adjacency and a finite planar loopless hypermap obtained by cutting
-out their interiors. The final theorems have no additional discretization,
-reducibility, or unavoidability hypotheses. A dependency audit rejects skipped
-proofs and oracle dependencies
-other than the standard code-evaluation oracle.
+  We formalise the Four Colour Theorem in Isabelle/HOL: every simple map of the
+  real plane can be coloured with four colours. The development follows
+  Gonthier's Rocq formalisation of the Robertson--Sanders--Seymour--Thomas
+  proof~\cite{rsst1997},
+  including the reducibility of 633 configurations and the discharging argument.
+  The certificate checkers are proved sound in HOL, and their concrete obligations
+  are discharged using Isabelle's standard code-evaluation mechanism.
 \end{abstract}
+
+\subsection*{Acknowledgements}
+This Isabelle formalisation was developed by a combination of
+Anthropic's Claude and OpenAI's Codex based on the mathematical argument and certificate
+data adapted from Gonthier and the contributors to the \emph{fourcolor}
+development~\cite{gonthier-fourcolor}. The supporting list, path, and finite-orbit
+conventions follow Mathematical Components~\cite{mathcomp}.
+Adapted upstream material retains the
+CeCILL-B licence; original additions are covered by the MIT licence.
+Full attribution and licence notices accompany the sources. The author's contribution
+consists only of revising the text and checking that the definitions and theorem statements
+capture the intended mathematics.
+
 \tableofcontents
+
 \parindent 0pt\parskip 0.5ex
 
-\section{Statement and representation}
-The Four Colour Theorem is represented by finite combinatorial maps,
-following Gonthier~\cite{gonthier2008,gonthier-fourcolor}.
-A hypermap consists of a finite carrier of darts and three permutations,
-\texttt{edge}, \texttt{node}, and \texttt{face}, satisfying
-\texttt{node (face (edge x)) = x}.
-The permutations act as the identity outside the carrier.
-Their orbits describe the edges, vertices, and faces. Planarity is expressed
-by genus zero, with genus defined from the orbit counts and the Euler
-characteristic. The proved Euler and Jordan results justify the structural
-use of this definition.
+\section{Introduction}
 
-The datatype \texttt{color} has exactly four constructors.
-A face colouring is constant along each face permutation and changes
-colour along an edge permutation, for every dart in the carrier.
-The bridgeless assumption excludes an edge joining a face to itself.
-For the dual graph formulation, the corresponding assumption is looplessness.
-The combinatorial results in theory \texttt{Combinatorial\_Four\_Colour} are:
-\begin{itemize}
-\item \texttt{four\_color\_hypermap}: a planar bridgeless hypermap is
-  four-colourable;
-\item \texttt{hypermap.four\_colour\_theorem}: the same result with the
-  hypermap, planarity, and bridgelessness assumptions displayed separately;
-\item \texttt{hypermap.four\_colour\_graph}: a planar loopless hypermap
-  admits a vertex colouring with four colours.
-\end{itemize}
-Theory \texttt{Four\_Colour} proves the real-plane statements, for
-\texttt{m :: rp\_point region\_map}:
-\begin{itemize}
-\item \texttt{four\_color\_finite}:
-  \texttt{rp\_finite\_simple\_map m} implies
-  \texttt{rp\_colorable\_with 4 m};
-\item \texttt{four\_color}: \texttt{rp\_simple\_map m} implies
-  \texttt{rp\_colorable\_with 4 m}.
-\end{itemize}
-The definitions formalise open connected regions. Adjacency requires a
-shared border point whose incident-region map has at most two regions. The geometric construction
-establishes the hypotheses of the combinatorial theorem; no discretization
-premise is assumed in either public plane-map theorem.
+A `proper colouring' of a plane map assigns a colour to each region so that
+adjacent regions receive different colours. The Four Colour Theorem states
+that four colours suffice:
 
-\section{Proof structure}
-The finite-list, path, and orbit libraries follow the conventions of
-SSReflect and Mathematical Components~\cite{mathcomp}.
-The mathematical argument is the reducibility and discharging proof of
-Robertson, Sanders, Seymour, and Thomas~\cite{rsst1997}, as formalised by
-Gonthier. The port preserves the 633 configuration programs and the
-presentation certificates of that development. Checkers validate these
-programs and certificates in Isabelle; correctness does not depend on the
-program that translated the data.
+\begin{quote}
+  \textbf{Theorem.} Every simple map of $\mathbb{R}^2$ admits a proper colouring
+  with at most four colours.
+\end{quote}
 
-\begin{description}
-\item[\texttt{Four\_Colour\_Base}] Finite permutations, hypermaps, Euler and Jordan
-properties, colourings, cubic reduction, and patches.
-\item[\texttt{Four\_Colour\_Maps}] Kempe arguments, chromogram trees, configuration
-maps, contractions, reducibility, embeddings, and quizzes.
-\item[\texttt{Four\_Colour\_Parts}] Parts, reducibility of parts, symmetries,
-discharging, and hubcaps.
-\item[\texttt{Four\_Colour\_Presentations}] Configuration data and the presentation
-checker.
-\item[\texttt{Four\_Colour\_Checkers}] Soundness of executable checkers and the
-logical final reductions.
-\item[\texttt{Four\_Colour\_Runtime}] Verified numeric code equations and shared
-generated checker code.
-\item[\texttt{Four\_Colour\_Quizzes}] Quiz certificates for all 633 configurations.
-\item[\texttt{Four\_Colour\_Reducibility}] Reducibility certificates for all
-633 configurations.
-\item[\texttt{Four\_Colour\_Unavoidability}] Score caps and presentations for
-arities 5 through 11.
-\item[\texttt{Four\_Colour\_Combinatorial}] Unavoidability, the combinatorial
-map and graph theorems, and their dependency audit.
-\item[\texttt{Four\_Colour\_Plane}] Real-plane map definitions and colouring
-compactness.
-\item[\texttt{Four\_Colour\_Plane\_Maps}] Finite restrictions and grid geometry.
-\item[\texttt{Four\_Colour\_Plane\_Geometry}] Approximation, map representatives,
-and matte geometry.
-\item[\texttt{Four\_Colour\_Matte\_Geometry}] Matte extension, refinement, and
-finite discretization data.
-\item[\texttt{Four\_Colour\_Grid\_Map}] Finite disjoint mattes preserving
-region adjacencies.
-\item[\texttt{Four\_Colour\_Grid\_Hypermap}] Grid planarity, successive interior
-cutouts, looplessness, and colour transfer.
-\item[\texttt{Four\_Colour}] Finite and arbitrary simple real-plane map theorems
-and their dependency audit.
-\end{description}
-The session boundaries allow the certificate computations to run in separate
-processes and to be retained in intermediate heaps. This is important on
-machines with limited memory. They are packaging boundaries, not additional
-mathematical assumptions.
+Following Gonthier~\cite{gonthier2008,gonthier-fourcolor}, a simple map consists of
+pairwise disjoint open connected regions of the plane. Two distinct regions are adjacent if their closures share
+a point incident to at most two regions. A junction incident to three or more
+regions does not itself create adjacency. The theorem \texttt{four\_color\_finite}
+proves the result for finitely many regions; \texttt{four\_color} removes this
+restriction by compactness. Both are stated in theory \texttt{Four\_Colour}
+using the predicates \texttt{rp\_simple\_map} and \texttt{rp\_colorable\_with}.
 
-\section{Computation and trust}
-The soundness lemmas for the certificate checkers are proved in HOL. The
-individual concrete obligations use \texttt{eval}. Its oracle dependency is
-\texttt{Code\_Generator.holds\_by\_evaluation}, so evaluation additionally
-trusts Isabelle's code generator and the ML runtime. This is not an
-oracle-free kernel reconstruction of all certificate evaluations.
-\texttt{code\_reflect} shares generated code to avoid recompiling the
-checkers for every configuration. Numeric code equations are proved before
-use; no external executable provides assumed certificate results.
+The certificate soundness proofs are checked in HOL. Concrete computations use
+\texttt{eval} and shared \texttt{code\_reflect} checker code, such that the final theorems
+depend on \texttt{Code\_Generator.holds\_by\_evaluation}, which relies on Isabelle's
+code generator and ML runtime. A dependency audit rejects skipped proofs and
+any other oracle.
 
-The final ML audit checks the actual dependency graphs of the public theorems.
-It rejects skipped proofs and any oracle other than the standard evaluation
-oracle. No configuration checker, presentation certificate, or absence of
-minimal counterexamples remains as an assumed premise of the final theorems.
-
-\section{Sources and authorship}
-The development is an Isabelle/HOL port of the upstream \texttt{fourcolor}
-repository at revision
-\texttt{c1d6b1cd5288bea4b067aac13cdde3c18dffe018}.
-The upstream mathematical work and Rocq formalisation are due to Georges
-Gonthier and the original contributors; the original proof is due to
-Robertson, Sanders, Seymour, and Thomas. This entry does not claim a new
-mathematical proof strategy.
-
-The Isabelle port was developed using Anthropic Claude and OpenAI Codex.
-Claude produced much of the initial formalisation. Codex contributed earlier
-sewing and snipping proofs, then completed remaining proofs, computational
-certificate checks, final assembly, and submission preparation after the
-recorded handoff. The repository's authorship record distinguishes these
-contributions. The upstream copyright and licence notices are preserved in
-\texttt{NOTICE} and \texttt{LICENSES/CeCILL-B.txt}; new material is covered as
-specified in \texttt{LICENSE}.
-
-\section{Formal development}
-Long generated configuration and presentation literals are omitted from this
-PDF; their complete source remains in the entry. The following sections
-include the supporting theories in dependency order and the final assembly.
+\input{theories}
 \input{session}
+
 \bibliographystyle{abbrv}
 \bibliography{root}
+
 \end{document}
